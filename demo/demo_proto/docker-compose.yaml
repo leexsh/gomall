@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  consul:
+    image: 'consul:1.15'
+    container_name: my-consul
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+  mysql:
+    image: 'mysql:8.0-debian'
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=liz123
+      - MYSQL_DATABASE=test
+  redis:
+    image: 'redis:6.0'
+    ports:
+      - 6379:6379
