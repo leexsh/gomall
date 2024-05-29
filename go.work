@@ -2,7 +2,4 @@ go 1.22.2
 
 use (
 	./app/frontend
-	./demo/demo_proto
-	./demo/demo_thrift
-	hello_world
 )
