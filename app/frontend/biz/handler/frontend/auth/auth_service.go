@@ -22,11 +22,11 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	resp, err := service.NewLoginService(ctx, c).Run(&req)
+	_, err = service.NewLoginService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
 
-	utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
+	utils.SendSuccessResponse(ctx, c, consts.StatusOK, "done")
 }

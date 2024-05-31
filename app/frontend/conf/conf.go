@@ -56,7 +56,12 @@ func GetConf() *Config {
 
 func initConf() {
 	prefix := "conf"
-	confFileRelPath := filepath.Join(prefix, filepath.Join(GetEnv(), "conf.yaml"))
+	var confFileRelPath string
+	if GetEnv() == "test" {
+		confFileRelPath = filepath.Join(prefix, filepath.Join(GetEnv(), "conf_really.yaml"))
+	} else {
+		confFileRelPath = filepath.Join(prefix, filepath.Join(GetEnv(), "conf.yaml"))
+	}
 	content, err := ioutil.ReadFile(confFileRelPath)
 	if err != nil {
 		panic(err)
