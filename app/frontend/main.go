@@ -4,7 +4,14 @@ package main
 
 import (
 	"context"
+	"gomall/app/frontend/infra/rpc_client"
+	"os"
 	"time"
+
+	"gomall/app/frontend/biz/dal"
+	"gomall/app/frontend/biz/router"
+	"gomall/app/frontend/conf"
+	"gomall/app/frontend/middleware"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
@@ -17,15 +24,18 @@ import (
 	"github.com/hertz-contrib/logger/accesslog"
 	hertzlogrus "github.com/hertz-contrib/logger/logrus"
 	"github.com/hertz-contrib/pprof"
+	"github.com/hertz-contrib/sessions"
+	"github.com/hertz-contrib/sessions/redis"
+	"github.com/joho/godotenv"
 	"go.uber.org/zap/zapcore"
-	"gomall/app/frontend/biz/router"
-	"gomall/app/frontend/conf"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func main() {
+	_ = godotenv.Load()
 	// init dal
-	// dal.Init()
+	dal.Init()
+	rpc_client.Init()
 	address := conf.GetConf().Hertz.Address
 	h := server.New(server.WithHostPorts(address))
 
@@ -37,7 +47,18 @@ func main() {
 	})
 
 	h.GET("/sign-in", func(c context.Context, ctx *app.RequestContext) {
-		ctx.HTML(consts.StatusOK, "sign-in", utils.H{"Title": "Sign In"})
+		data := utils.H{
+			"Title": "Sign In",
+			// "Next": ctx.Request.Header.Get("Referer"),
+			"Next": ctx.Query("Referer"),
+		}
+		ctx.HTML(consts.StatusOK, "sign-in", data)
+	})
+	h.GET("/sign-up", func(c context.Context, ctx *app.RequestContext) {
+		ctx.HTML(consts.StatusOK, "sign-up", utils.H{"Title": "Sign Up"})
+	})
+	h.GET("/about", func(c context.Context, ctx *app.RequestContext) {
+		ctx.HTML(consts.StatusOK, "about", utils.H{"Title": "About"})
 	})
 	router.GeneratedRegister(h)
 	h.LoadHTMLGlob("template/*")
@@ -46,6 +67,8 @@ func main() {
 }
 
 func registerMiddleware(h *server.Hertz) {
+	store, _ := redis.NewStore(10, "tcp", conf.GetConf().Redis.Address, "", []byte(os.Getenv("SESSION_SECRET")))
+	h.Use(sessions.New("goMall", store))
 	// log
 	logger := hertzlogrus.NewLogger()
 	hlog.SetLogger(logger)
@@ -84,4 +107,6 @@ func registerMiddleware(h *server.Hertz) {
 
 	// cores
 	h.Use(cors.Default())
+	middleware.Register(h)
+
 }

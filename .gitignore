@@ -1,2 +1,5 @@
 .idea
 .vscode
+app/*/conf/test/conf_really.yaml
+app/*/*/conf_really.yaml
+app/*/.env

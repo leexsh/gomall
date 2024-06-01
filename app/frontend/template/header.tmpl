@@ -21,7 +21,7 @@
     		<div class="collapse navbar-collapse" id="navbarSupportedContent">
      			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
         			<li class="nav-item">
-          				<a class="nav-link active" aria-current="page" href="#">Home</a>
+          				<a class="nav-link active" aria-current="page" href="/">Home</a>
         			</li>
         			<li class="nav-item dropdown">
           				<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -33,7 +33,7 @@
           				</ul>
         			</li>
         			<li class="nav-item">
-          				<a class="nav-link">About</a>
+          				<a class="nav-link" href="/about">About</a>
         			</li>
       			</ul>
       		<form class="d-flex" role="search">
@@ -43,12 +43,26 @@
       		<div class="ms-3">
         		<i class="fa-solid fa-cart-shopping fa-xl"></i>
       		</div>
-      		<div class="ms-3">
-        		<i class="fa-regular fa-user fa-xl"></i>
-      		</div>
+			{{ if .user_id}}
+				<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+				    <div class="ms-3">
+       			 		<i class="fa-regular fa-user fa-lg"></i>
+						<span> {{.user_id}}</span>
+					</div>
+				</button>
+				<ul class="dropdown-menu">
+					<li><a class="dropdown-item" href="#">订单中心</a></li>
+					<form action="/auth/logout", method="post">
+						<li><button class="btn btn-primary dropdown-item", type="submit">退出</button></li>
+					</form>
+				</ul>
+			</div>
+			{{ else }}
       		<div class="ms-3">
        			<a type="button" class="btn btn-primary" href="/sign-in">Sign In</a>
       		</div>
+			{{ end }}
     	</div>
   	</div>
 		</nav>
