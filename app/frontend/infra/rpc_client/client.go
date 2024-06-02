@@ -1,6 +1,8 @@
 package rpc_client
 
 import (
+	"gomall/app/frontend/conf"
+	"gomall/app/frontend/utils"
 	"gomall/rpc_gen/kitex_gen/gomall/user/userservice"
 	"sync"
 
@@ -20,13 +22,8 @@ func Init() {
 }
 
 func initUserRpcClient() {
-	r, err := consul.NewConsulResolver("47.104.98.71:8500")
-	if err != nil {
-		return
-	}
+	r, err := consul.NewConsulResolver(conf.GetConf().Hertz.RegistryAddr)
+	myutils.MustHandleErr(err)
 	UserClient, err = userservice.NewClient("user", client.WithResolver(r))
-	if err != nil {
-		return
-	}
-
+	myutils.MustHandleErr(err)
 }

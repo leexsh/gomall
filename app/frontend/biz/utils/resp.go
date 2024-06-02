@@ -2,7 +2,7 @@ package utils
 
 import (
 	"context"
-	"gomall/app/frontend/middleware"
+	myutils "gomall/app/frontend/utils"
 
 	"github.com/cloudwego/hertz/pkg/app"
 )
@@ -19,8 +19,7 @@ func SendSuccessResponse(ctx context.Context, c *app.RequestContext, code int, d
 	c.JSON(code, data)
 }
 
-
 func WrapResp(ctx context.Context, c *app.RequestContext, content map[string]any) map[string]any {
-	content["user_id"] = ctx.Value(middleware.SessionUidKey)
+	content["user_id"] = myutils.GetUidByCtx(ctx)
 	return content
 }

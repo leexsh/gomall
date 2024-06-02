@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gomall/app/user/biz/dal"
 	"gomall/app/user/kitex_gen/gomall/user/userservice"
 	"net"
@@ -46,6 +47,7 @@ func kitexInit() (opts []server.Option) {
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
 
 	r, err := consul.NewConsulRegister(conf.GetConf().Registry.RegistryAddress[0])
+	fmt.Println("err is:", err, conf.GetConf().Registry.RegistryAddress[0])
 	if err != nil {
 		klog.Fatal(err)
 	}
