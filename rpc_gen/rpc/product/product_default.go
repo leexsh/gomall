@@ -33,3 +33,12 @@ func SearchProducts(ctx context.Context, req *product.SearchProductReq, callOpti
 	}
 	return resp, nil
 }
+
+func GetAllProducts(ctx context.Context, req *product.GetAllProductsReq, callOptions ...callopt.Option) (resp *product.GetAllProductsResp, err error) {
+	resp, err = defaultClient.GetAllProducts(ctx, req, callOptions...)
+	if err != nil {
+		klog.CtxErrorf(ctx, "GetAllProducts call failed,err =%+v", err)
+		return nil, err
+	}
+	return resp, nil
+}

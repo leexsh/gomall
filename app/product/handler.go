@@ -29,3 +29,10 @@ func (s *ProductServiceImpl) SearchProducts(ctx context.Context, req *product.Se
 
 	return resp, err
 }
+
+// GetAllProducts implements the ProductServiceImpl interface.
+func (s *ProductServiceImpl) GetAllProducts(ctx context.Context, req *product.GetAllProductsReq) (resp *product.GetAllProductsResp, err error) {
+	resp, err = service.NewGetAllProductsService(ctx).Run(req)
+
+	return resp, err
+}

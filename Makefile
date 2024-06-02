@@ -10,7 +10,9 @@ gen-demo-thrift:
 gen-frontend:
 #	 @cd app/frontend && cwgo server -I ../../idl/proto --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/proto/frontend/home.proto
 #	@cd app/frontend && cwgo server -I ../../idl/thrift --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/home.thrift
-	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/auth_page.thrift
+#	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/auth_page.thrift
+	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/product.thrift
+	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/category.thrift
 
 .PHONY: gen-user
 gen-user:
@@ -22,8 +24,15 @@ gen-user:
 .PHONY: gen-product
 gen-product:
 	@cd rpc_gen && cwgo client --type RPC --service product --module gomall/rpc_gen -I ../idl --idl ../idl/thrift/product.thrift
-#	@cd app/product && cwgo server --type RPC --service product  --module gomall/app/product --I ../../idl --idl ../../idl/thrift/product.thrift
+	@cd app/product && cwgo server --type RPC --service product  --module gomall/app/product --I ../../idl --idl ../../idl/thrift/product.thrift
+
+.PHONY: gen-cart
+gen-cart:
+	@cd rpc_gen && cwgo client --type RPC --service cart --module gomall/rpc_gen -I ../idl --idl ../idl/thrift/cart.thrift
+	@cd app/cart && cwgo server --type RPC --service cart  --module gomall/app/cart --I ../../idl --idl ../../idl/thrift/cart.thrift
 
 gen-rpc-client:
 #	@cd app/frontend/rpc/userClient && cwgo client --type RPC --service user --module gomall/app/frontend/rpc/userClient --I ../../../../idl --idl ../../../..//idl/thrift/user.thrift
 	@cd rpc_gen && cwgo client --type RPC --service user --module gomall/rpc_gen --I ../idl --idl ../idl/thrift/user.thrift
+
+

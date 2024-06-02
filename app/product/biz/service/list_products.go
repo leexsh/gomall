@@ -29,7 +29,8 @@ func (s *ListProductsService) Run(req *product.ListProductReq) (resp *product.Li
 				Id: int32(v1.ID),
 				Name: v1.Name,
 				Picture: v1.Picture,
-				Descrption: v1.Description,
+				Description: v1.Description,
+				Price: v1.Price,
 			})
 		}
 	}

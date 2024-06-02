@@ -34,6 +34,13 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingNone),
 	),
+	"getAllProducts": kitex.NewMethodInfo(
+		getAllProductsHandler,
+		newProductServiceGetAllProductsArgs,
+		newProductServiceGetAllProductsResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingNone),
+	),
 }
 
 var (
@@ -154,6 +161,24 @@ func newProductServiceSearchProductsResult() interface{} {
 	return product.NewProductServiceSearchProductsResult()
 }
 
+func getAllProductsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*product.ProductServiceGetAllProductsArgs)
+	realResult := result.(*product.ProductServiceGetAllProductsResult)
+	success, err := handler.(product.ProductService).GetAllProducts(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newProductServiceGetAllProductsArgs() interface{} {
+	return product.NewProductServiceGetAllProductsArgs()
+}
+
+func newProductServiceGetAllProductsResult() interface{} {
+	return product.NewProductServiceGetAllProductsResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -189,6 +214,16 @@ func (p *kClient) SearchProducts(ctx context.Context, req *product.SearchProduct
 	_args.Req = req
 	var _result product.ProductServiceSearchProductsResult
 	if err = p.c.Call(ctx, "SearchProducts", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetAllProducts(ctx context.Context, req *product.GetAllProductsReq) (r *product.GetAllProductsResp, err error) {
+	var _args product.ProductServiceGetAllProductsArgs
+	_args.Req = req
+	var _result product.ProductServiceGetAllProductsResult
+	if err = p.c.Call(ctx, "getAllProducts", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

@@ -25,7 +25,8 @@ func (s *SearchProductsService) Run(req *product.SearchProductReq) (resp *produc
 			Id: int32(v.ID),
 			Name: v.Name,
 			Picture: v.Picture,
-			Descrption: v.Description,
+			Description: v.Description,
+			Price: v.Price,
 		})
 	}
 	resp = product.NewSearchProductResp()
