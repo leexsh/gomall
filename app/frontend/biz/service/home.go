@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 
 	common "gomall/app/frontend/hertz_gen/frontend/common"
 	"gomall/app/frontend/infra/rpc_client"
@@ -39,7 +40,9 @@ func (h *HomeService) Run(req *common.Empty) (map[string]any, error) {
 	// // pros, err := rpc_client.ProductClient.ListProducts(h.Context, &product.ListProductReq{})
 	// resp["Title"] = "Hot Sales"
 	// resp["Items"] = items
+	// return resp, nil
 	ros, err := rpc_client.ProductClient.GetAllProducts(h.Context, &product.GetAllProductsReq{})
+	fmt.Println(err)
 	if err != nil {
 		klog.Error(err)
 	}

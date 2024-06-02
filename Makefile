@@ -11,8 +11,9 @@ gen-frontend:
 #	 @cd app/frontend && cwgo server -I ../../idl/proto --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/proto/frontend/home.proto
 #	@cd app/frontend && cwgo server -I ../../idl/thrift --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/home.thrift
 #	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/auth_page.thrift
-	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/product.thrift
-	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/category.thrift
+#	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/product.thrift
+#	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/category.thrift
+	@cd app/frontend && cwgo server -I ../../idl --type HTTP --service frontend --module gomall/app/frontend --idl ../../idl/thrift/frontend/cart_page.thrift
 
 .PHONY: gen-user
 gen-user:

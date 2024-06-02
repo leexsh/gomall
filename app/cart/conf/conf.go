@@ -47,6 +47,7 @@ type Kitex struct {
 	LogMaxSize      int    `yaml:"log_max_size"`
 	LogMaxBackups   int    `yaml:"log_max_backups"`
 	LogMaxAge       int    `yaml:"log_max_age"`
+	RegistryAddr    string `yaml:"registry_addr"`
 }
 
 type Registry struct {
@@ -63,7 +64,12 @@ func GetConf() *Config {
 
 func initConf() {
 	prefix := "conf"
-	confFileRelPath := filepath.Join(prefix, filepath.Join(GetEnv(), "conf.yaml"))
+	var confFileRelPath string
+	if GetEnv() == "test" {
+		confFileRelPath = filepath.Join(prefix, filepath.Join(GetEnv(), "conf_really.yaml"))
+	} else {
+		confFileRelPath = filepath.Join(prefix, filepath.Join(GetEnv(), "conf.yaml"))
+	}
 	content, err := ioutil.ReadFile(confFileRelPath)
 	if err != nil {
 		panic(err)

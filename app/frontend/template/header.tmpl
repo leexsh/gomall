@@ -41,7 +41,9 @@
         		<button class="btn btn-outline-success" type="submit">Search</button>
       		</form>
       		<div class="ms-3">
-        		<i class="fa-solid fa-cart-shopping fa-xl"></i>
+			      <div class="ms-lg-3 d-none d-lg-block d-xl-block" href="/cart">
+                    {{ template "cart-num" . }}
+                </div>
       		</div>
 			{{ if .user_id}}
 				<div class="dropdown">
@@ -64,6 +66,7 @@
       		</div>
 			{{ end }}
     	</div>
+		
   	</div>
 		</nav>
 	</header>

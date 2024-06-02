@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"gomall/app/cart/biz/model"
 	"gomall/app/cart/conf"
 
 	"gorm.io/driver/mysql"
@@ -19,6 +20,7 @@ func Init() {
 			SkipDefaultTransaction: true,
 		},
 	)
+	DB.AutoMigrate(model.Cart{})
 	if err != nil {
 		panic(err)
 	}

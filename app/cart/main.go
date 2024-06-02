@@ -1,25 +1,31 @@
 package main
 
 import (
+	"fmt"
 	"net"
 	"time"
+
+	"gomall/app/cart/biz/dal"
+	"gomall/app/cart/conf"
+	"gomall/app/cart/kitex_gen/gomall/cart/cartservice"
+	rpc_client "gomall/app/cart/rpc"
 
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/pkg/transmeta"
 	"github.com/cloudwego/kitex/server"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
+	consul "github.com/kitex-contrib/registry-consul"
 	"go.uber.org/zap/zapcore"
-	"gomall/app/cart/conf"
-	"gomall/app/cart/kitex_gen/gomall/cart/cartservice"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func main() {
 	opts := kitexInit()
-
 	svr := cartservice.NewServer(new(CartServiceImpl), opts...)
 
+	dal.Init()
+	rpc_client.Init()
 	err := svr.Run()
 	if err != nil {
 		klog.Error(err.Error())
@@ -40,7 +46,13 @@ func kitexInit() (opts []server.Option) {
 	}))
 	// thrift meta handler
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
-
+	
+	r, err := consul.NewConsulRegister(conf.GetConf().Registry.RegistryAddress[0])
+	if err != nil {
+		klog.Fatal(err)
+	}
+	fmt.Println(err)
+	opts = append(opts, server.WithRegistry(r))
 	// klog
 	logger := kitexlogrus.NewLogger()
 	klog.SetLogger(logger)
