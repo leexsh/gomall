@@ -15,14 +15,14 @@ gen-frontend:
 .PHONY: gen-user
 gen-user:
 	# rpc client
-	@cd rpc_gen && cwgo client --type RPC --service user --module gomall/rpc_gen --I ../idl --idl ../idl/thrift/user.thrift
+	#@cd rpc_gen && cwgo client --type RPC --service user --module gomall/rpc_gen --I ../idl --idl ../idl/thrift/user.thrift
 	# rpc server
 	@cd app/user && cwgo server --type RPC --service user --module gomall/app/user --I ../../idl --idl ../../idl/thrift/user.thrift
 
 .PHONY: gen-product
 gen-product:
-	@cd rpc_gen && cwgo client --type RPC --service product --module ${ROOT_MOD}/rpc_gen -I ../idl --idl ../idl/product.proto
-	@cd app/product && cwgo server --type RPC --service product  --module ${ROOT_MOD}/app/product --pass
+	@cd rpc_gen && cwgo client --type RPC --service product --module gomall/rpc_gen -I ../idl --idl ../idl/thrift/product.thrift
+#	@cd app/product && cwgo server --type RPC --service product  --module gomall/app/product --I ../../idl --idl ../../idl/thrift/product.thrift
 
 gen-rpc-client:
 #	@cd app/frontend/rpc/userClient && cwgo client --type RPC --service user --module gomall/app/frontend/rpc/userClient --I ../../../../idl --idl ../../../..//idl/thrift/user.thrift

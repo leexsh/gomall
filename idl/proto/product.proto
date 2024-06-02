@@ -1,6 +1,6 @@
 syntax = "proto3";
 package product;
-option go_package="/product";
+option go_package="/product.thrift";
 
 message ListProductsReq {
   int32 page = 1;

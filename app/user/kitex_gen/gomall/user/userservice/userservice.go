@@ -5,10 +5,9 @@ package userservice
 import (
 	"context"
 	"errors"
-	user "gomall/app/user/kitex_gen/gomall/user"
-
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
+	user "gomall/app/user/kitex_gen/gomall/user"
 )
 
 var errInvalidMessageType = errors.New("invalid message type for service method handler")
@@ -41,12 +40,12 @@ func serviceInfo() *kitex.ServiceInfo {
 	return userServiceServiceInfo
 }
 
-// for rpc_client
+// for client
 func serviceInfoForStreamClient() *kitex.ServiceInfo {
 	return userServiceServiceInfoForStreamClient
 }
 
-// for stream rpc_client
+// for stream client
 func serviceInfoForClient() *kitex.ServiceInfo {
 	return userServiceServiceInfoForClient
 }
