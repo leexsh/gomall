@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	"gomall/app/cart/kitex_gen/gomall/cart"
