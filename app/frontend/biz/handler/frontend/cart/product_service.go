@@ -2,13 +2,14 @@ package cart
 
 import (
 	"context"
+	"gomall/app/frontend/biz/utils"
+
+	"gomall/app/frontend/biz/service"
+	cart "gomall/app/frontend/hertz_gen/frontend/cart"
+	common "gomall/app/frontend/hertz_gen/frontend/common"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
-	"gomall/app/frontend/biz/service"
-	"gomall/app/frontend/biz/utils"
-	cart "gomall/app/frontend/hertz_gen/frontend/cart"
-	common "gomall/app/frontend/hertz_gen/frontend/common"
 )
 
 // GetCart .
@@ -44,7 +45,7 @@ func AddCartItem(ctx context.Context, c *app.RequestContext) {
 	_, err = service.NewAddCartItemService(ctx, c).Run(&req)
 
 	if err != nil {
-		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
+		c.HTML(consts.StatusOK, "cart", err)
 		return
 	}
 	c.Redirect(consts.StatusFound, []byte("/cart"))

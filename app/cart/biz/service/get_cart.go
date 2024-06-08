@@ -17,12 +17,12 @@ func NewGetCartService(ctx context.Context) *GetCartService {
 // Run create note info
 func (s *GetCartService) Run(req *cart.GetCartReq) (resp *cart.GetCartResp, err error) {
 	// Finish your business logic.
-	res, err := model.GetItemByUserID(s.ctx, mysql.DB, req.UserId)
+	carts, err := model.GetCartByUserId(mysql.DB, s.ctx, uint32(req.UserId))
 	if err != nil {
 		return nil, err
 	}
 	var ites []*cart.CartItem
-	for _, v := range res {
+	for _, v := range carts {
 		ites = append(ites, &cart.CartItem{
 			ProductId: v.ProductId,
 			Quantity: v.Qty,
