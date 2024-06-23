@@ -3,9 +3,11 @@ package service
 import (
 	"context"
 	"errors"
+	"gomall/app/product/biz/dal/mysql"
 	"gomall/app/product/biz/model"
 	product "gomall/app/product/kitex_gen/gomall/product"
-	"gomall/app/product/biz/dal/mysql"
+
+	"github.com/redis/go-redis/v9"
 )
 
 type GetProductService struct {
@@ -21,8 +23,8 @@ func (s *GetProductService) Run(req *product.GetProductReq) (resp *product.GetPr
 	if req.Id == 0 {
 		return nil, errors.New("req is is error")
 	}
-	prodQuery := model.NewProductQuery(s.ctx, mysql.DB)
-	prod, err := prodQuery.GetProductById(int(req.Id))
+	proquery := model.NewCacheProdcutQuery(s.ctx, mysql.DB, redis.RedisClient)
+	prod, err := proquery.GetById(int(req.Id))
 	if err != nil {
 		return nil, err
 	}
